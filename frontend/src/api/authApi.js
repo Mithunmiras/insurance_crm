@@ -20,21 +20,21 @@ export const loginUser = async (credentials) => {
     console.log('Permissions from API:', data.data.user.permissions);
     console.log('Permissions count:', data.data.user.permissions?.length);
     
-    if (!response.ok || (data.data && data.data.responseCode !== 200)) {
-      throw new Error(data.data?.message || data.message || 'Login failed');
+    if (!response.ok || data.code !== 100) {
+      throw new Error(data.message || 'Login failed');
     }
 
-    const userRole = data.data.user.username.userType || 'doctor';
+    const userRole = data.data.user.userName.userType || 'doctor';
     console.log('Extracted user role:', userRole);
 
     return {
-      token: data.data.accessToken.accessToken,
+      token: data.data.accessToken,
       user: {
-        id: data.data.user.username._id,
-        name: data.data.user.username.fullName,
-        email: data.data.user.username.email,
+        id: data.data.user.userName._id,
+        name: data.data.user.userName.fullName || data.data.user.userName.userName,
+        email: data.data.user.userName.userName,
         role: userRole,
-        permissions: data.data.user.permissions || []
+        permissions: data.data.user.userName.roleId?.permission || []
       }
     };
   } catch (error) {
