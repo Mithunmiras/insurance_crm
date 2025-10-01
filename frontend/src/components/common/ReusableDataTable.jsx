@@ -29,7 +29,8 @@ import {
   SearchOutlined,
   MoreOutlined,
   UserOutlined,
-  UploadOutlined
+  UploadOutlined,
+  EditOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
@@ -54,10 +55,13 @@ const ReusableDataTable = ({
   const [filterVisible, setFilterVisible] = useState(false);
   const [drawerMode, setDrawerMode] = useState('create');
   const [currentRecord, setCurrentRecord] = useState(null);
-  const [filteredData, setFilteredData] = useState(dataSource);
+  const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [form] = Form.useForm();
   const [filterForm] = Form.useForm();
+  const [viewModalVisible, setViewModalVisible] = useState(false);
+  const [viewRecord, setViewRecord] = useState(null);
+  const [baseData, setBaseData] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -70,8 +74,40 @@ const ReusableDataTable = ({
   });
 
   React.useEffect(() => {
-    setFilteredData(dataSource);
-    setPagination(prev => ({ ...prev, total: dataSource.length }));
+    const tempData = dataSource.length === 0 ? [
+      {
+        id: 1,
+        employeeId: 'EMP001',
+        employeeName: 'John Doe',
+        email: 'john.doe@example.com',
+        phone: '+1234567890',
+        designation: 'Senior Developer',
+        role: 'Doctor',
+        managerName: 'Jane Smith',
+        experience: '5',
+        doj: '2020-01-15',
+        status: 'Active',
+        active: true
+      },
+      {
+        id: 2,
+        employeeId: 'EMP002',
+        employeeName: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+1234567891',
+        designation: 'Staff Nurse',
+        role: 'Staff',
+        managerName: 'John Doe',
+        experience: '3',
+        doj: '2021-06-10',
+        status: 'Active',
+        active: true
+      }
+    ] : dataSource;
+    
+    setBaseData(tempData);
+    setFilteredData(tempData);
+    setPagination(prev => ({ ...prev, total: tempData.length }));
   }, [dataSource]);
 
   const rowSelection = {
@@ -116,10 +152,12 @@ const ReusableDataTable = ({
 
   const handleView = (record) => {
     console.log('View clicked for record:', record);
-    setDrawerMode('view');
-    setCurrentRecord(record);
-    form.resetFields();
-    setDrawerVisible(true);
+    setViewRecord(record);
+    setViewModalVisible(true);
+  };
+
+  const handleNameClick = (record) => {
+    handleView(record);
   };
 
   const handleSubmit = async () => {
@@ -159,18 +197,41 @@ const ReusableDataTable = ({
     }
   };
 
-  const handleSearch = (value) => {
-    setSearchText(value);
-    if (!value) {
-      setFilteredData(dataSource);
+  const handleEditSelected = () => {
+    if (selectedRowKeys.length !== 1) {
+      message.warning('Please select exactly one item to edit');
       return;
     }
-    const filtered = dataSource.filter(item =>
-      Object.values(item).some(val =>
-        String(val).toLowerCase().includes(value.toLowerCase())
-      )
-    );
-    setFilteredData(filtered);
+    const selectedRecord = filteredData.find(item => item.id === selectedRowKeys[0]);
+    if (selectedRecord) {
+      handleEdit(selectedRecord);
+    }
+  };
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+    
+    if (!value || value.trim() === '') {
+      setFilteredData([...baseData]);
+      setPagination(prev => ({ ...prev, current: 1, total: baseData.length }));
+      return;
+    }
+    
+    const searchTerm = value.toLowerCase().trim();
+    const filtered = baseData.filter(item => {
+      return (
+        (item.employeeName && item.employeeName.toLowerCase().includes(searchTerm)) ||
+        (item.email && item.email.toLowerCase().includes(searchTerm)) ||
+        (item.employeeId && item.employeeId.toLowerCase().includes(searchTerm)) ||
+        (item.designation && item.designation.toLowerCase().includes(searchTerm)) ||
+        (item.role && item.role.toLowerCase().includes(searchTerm)) ||
+        (item.managerName && item.managerName.toLowerCase().includes(searchTerm)) ||
+        (item.phone && item.phone.toLowerCase().includes(searchTerm)) ||
+        (item.status && item.status.toLowerCase().includes(searchTerm))
+      );
+    });
+    
+    setFilteredData([...filtered]);
     setPagination(prev => ({ ...prev, current: 1, total: filtered.length }));
   };
 
@@ -273,9 +334,9 @@ const ReusableDataTable = ({
 
   const resetFilters = () => {
     filterForm.resetFields();
-    setFilteredData(dataSource);
+    setFilteredData(baseData);
     setSearchText('');
-    setPagination(prev => ({ ...prev, current: 1, total: dataSource.length }));
+    setPagination(prev => ({ ...prev, current: 1, total: baseData.length }));
     message.success('Filters reset successfully');
   };
 
@@ -370,25 +431,32 @@ const ReusableDataTable = ({
     ),
   };
 
-  const tableColumns = [...columns, actionColumn];
+  const enhancedColumns = columns.map(col => {
+    if (col.dataIndex === 'employeeName') {
+      return {
+        ...col,
+        render: (text, record) => (
+          <Button 
+            type="link" 
+            onClick={() => handleNameClick(record)}
+            style={{ padding: 0, height: 'auto', color: '#1890ff' }}
+          >
+            {text}
+          </Button>
+        )
+      };
+    }
+    return col;
+  });
+
+  const tableColumns = [...enhancedColumns, actionColumn];
 
   const drawerTitle = drawerMode === 'create' ? `Create ${pageTitle.slice(0, -1)}` : 
                     drawerMode === 'edit' ? `Edit ${pageTitle.slice(0, -1)}` : 
                     `View ${pageTitle.slice(0, -1)}`;
 
   return (
-    <motion.div 
-      style={{ 
-        padding: '24px', 
-        background: 'linear-gradient(135deg, #fafafa 0%, #f0f2f5 50%, #e6f7ff 100%)', 
-        minHeight: '100vh',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-    >
+    <div style={{ padding: '24px' }}>
       <style>
         {`
           .inactive-user-row {
@@ -419,79 +487,23 @@ const ReusableDataTable = ({
           }
         `}
       </style>
-      {/* Floating Background Elements */}
-      <motion.div 
-        className="absolute top-10 right-32 w-24 h-24 bg-blue-400/8 rounded-full blur-2xl"
-        animate={{ 
-          y: [0, -20, 0],
-          x: [0, 15, 0],
-          scale: [1, 1.2, 1]
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div 
-        className="absolute bottom-20 left-20 w-20 h-20 bg-purple-400/6 rounded-full blur-xl"
-        animate={{ 
-          y: [0, 18, 0],
-          x: [0, -12, 0],
-          scale: [1, 1.1, 1]
-        }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      />
-      
-      <motion.div 
-        style={{ 
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)', 
-          padding: '24px', 
-          borderRadius: '16px', 
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.2) inset',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.3)'
-        }}
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 200 }}
-      >
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <Breadcrumb items={breadcrumbItems} style={{ marginBottom: '16px' }} />
-        </motion.div>
+        <Breadcrumb items={breadcrumbItems} style={{ marginBottom: '16px' }} />
         
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <Title 
-              level={2} 
-              style={{ 
-                margin: 0, 
-                background: 'linear-gradient(135deg, #1e293b, #3b82f6, #8b5cf6)',
-                backgroundSize: '200% 200%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+          <Title level={2} style={{ margin: 0 }}>
+            {pageTitle}
+          </Title>
+          <Space wrap>
+            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+              Create
+            </Button>
+            <Button 
+              icon={<EditOutlined />} 
+              disabled={selectedRowKeys.length !== 1}
+              onClick={handleEditSelected}
             >
-              {pageTitle}
-            </Title>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <Space>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-                Create
-              </Button>
-            </motion.div>
+              Edit
+            </Button>
             <Button 
               icon={<DeleteOutlined />} 
               disabled={selectedRowKeys.length === 0}
@@ -504,70 +516,37 @@ const ReusableDataTable = ({
             </Button>
             <Button icon={<ImportOutlined />} onClick={handleImport}>Import</Button>
             <Button icon={<ExportOutlined />} onClick={handleExport}>Export</Button>
-            </Space>
-          </motion.div>
+          </Space>
         </div>
 
-        <motion.div 
-          style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button 
-              icon={<FilterOutlined />} 
-              onClick={() => setFilterVisible(true)}
-              style={{
-                background: 'linear-gradient(135deg, #f8fafc, #e2e8f0)',
-                border: '1px solid #cbd5e1',
-                color: '#475569'
-              }}
-            >
-              Filter
-            </Button>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '16px' }}>
+          <Button 
+            icon={<FilterOutlined />} 
+            onClick={() => setFilterVisible(true)}
           >
-            <Input.Search
-              placeholder="Search here"
-              style={{ 
-                width: 300,
-                borderRadius: '12px'
-              }}
-              prefix={<SearchOutlined />}
-              value={searchText}
-              onChange={(e) => handleSearch(e.target.value)}
-              onSearch={handleSearch}
-            />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-        >
-          <Table
-            rowKey="id"
-            rowSelection={rowSelection}
-            columns={tableColumns}
-            dataSource={filteredData}
-            loading={loading}
-            rowClassName={(record) => record.active === false ? 'inactive-user-row' : ''}
-            pagination={pagination}
-            onChange={handleTableChange}
-            style={{ 
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
-            }}
+            Filter
+          </Button>
+          <Input.Search
+            placeholder="Search here"
+            style={{ width: '100%', maxWidth: 300 }}
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => handleSearch(e.target.value)}
+            onSearch={handleSearch}
           />
-        </motion.div>
-      </motion.div>
+        </div>
+
+        <Table
+          rowKey="id"
+          rowSelection={rowSelection}
+          columns={tableColumns}
+          dataSource={filteredData}
+          loading={loading}
+          rowClassName={(record) => record.active === false ? 'inactive-user-row' : ''}
+          pagination={pagination}
+          onChange={handleTableChange}
+          scroll={{ x: 'max-content' }}
+        />
 
       <Drawer
         title={
@@ -588,7 +567,7 @@ const ReusableDataTable = ({
             {drawerTitle}
           </motion.div>
         }
-        width={650}
+        width={window.innerWidth < 768 ? '100%' : 650}
         open={drawerVisible}
         onClose={() => setDrawerVisible(false)}
         styles={{
@@ -694,7 +673,7 @@ const ReusableDataTable = ({
             Filter Options
           </motion.div>
         }
-        width={420}
+        width={window.innerWidth < 768 ? '100%' : 420}
         open={filterVisible}
         onClose={() => setFilterVisible(false)}
         styles={{
@@ -822,7 +801,84 @@ const ReusableDataTable = ({
           </Form>
         </motion.div>
       </Drawer>
-    </motion.div>
+
+      <Modal
+        title={`Employee Details - ${viewRecord?.employeeName || ''}`}
+        open={viewModalVisible}
+        onCancel={() => setViewModalVisible(false)}
+        footer={[
+          <Button key="close" onClick={() => setViewModalVisible(false)}>
+            Close
+          </Button>
+        ]}
+        width={600}
+      >
+        {viewRecord && (
+          <div style={{ padding: '20px 0' }}>
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Employee ID:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.employeeId}</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Email:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.email}</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Phone:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.phone}</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Designation:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.designation}</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Role:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.role}</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Manager:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.managerName}</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Experience:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.experience} years</div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Date of Joining:</strong>
+                  <div style={{ marginTop: '4px', color: '#666' }}>{viewRecord.doj}</div>
+                </div>
+              </Col>
+              <Col span={24}>
+                <div style={{ marginBottom: '16px' }}>
+                  <strong>Status:</strong>
+                  <div style={{ marginTop: '4px' }}>
+                    <Tag color={viewRecord.status === 'Active' ? 'green' : 'red'}>
+                      {viewRecord.status}
+                    </Tag>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        )}
+      </Modal>
+    </div>
   );
 };
 
