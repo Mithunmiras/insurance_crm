@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
-import { Layout, Avatar, Dropdown, Button, Badge, Input } from 'antd';
+import React from 'react';
+import { Layout, Avatar, Dropdown, Button } from 'antd';
 import { motion } from 'framer-motion';
 import { 
   UserOutlined, 
   LogoutOutlined, 
   SettingOutlined,
-  BellOutlined,
   MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  SearchOutlined
+  MenuUnfoldOutlined
 } from '@ant-design/icons';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 
 const { Header: AntHeader } = Layout;
-const { Search } = Input;
 
 const Header = ({ collapsed, onToggle }) => {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState('');
 
   const handleLogout = () => {
     logout();
@@ -97,88 +93,9 @@ const Header = ({ collapsed, onToggle }) => {
               />
             </Button>
           </motion.div>
-          
-          {/* Search Bar */}
-          <motion.div 
-            className="hidden md:block relative"
-            initial={{ opacity: 0, x: -30, scale: 0.8 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 200 }}
-          >
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            >
-              <Search
-                placeholder="Search anything..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                style={{ width: 400 }}
-                size="large"
-                className="royal-search"
-              />
-            </motion.div>
-            {/* Floating Search Particles */}
-            <motion.div 
-              className="absolute -top-1 -right-1 w-2 h-2 bg-blue-400/40 rounded-full"
-              animate={{ 
-                scale: [1, 1.5, 1],
-                opacity: [0.4, 0.8, 0.4]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <motion.div 
-              className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-purple-400/30 rounded-full"
-              animate={{ 
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.7, 0.3]
-              }}
-              transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-            />
-          </motion.div>
         </div>
 
         <div className="flex items-center space-x-4">
-          {/* Notifications */}
-          <motion.div
-            whileHover={{ scale: 1.1, rotate: 10 }}
-            whileTap={{ scale: 0.9, rotate: -10 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          >
-            <Badge 
-              count={3} 
-              size="small" 
-              offset={[-2, 2]}
-              className="relative"
-            >
-              <Button
-                type="text"
-                icon={<BellOutlined />}
-                className="relative w-12 h-12 rounded-xl flex items-center justify-center overflow-hidden group"
-                style={{ 
-                  color: '#4A5568', 
-                  fontSize: '18px',
-                  background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(59, 130, 246, 0.1))',
-                  border: '1px solid rgba(236, 72, 153, 0.2)'
-                }}
-              >
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100"
-                  transition={{ duration: 0.3 }}
-                />
-                {/* Notification Pulse */}
-                <motion.div 
-                  className="absolute top-2 right-2 w-2 h-2 bg-red-400 rounded-full"
-                  animate={{ 
-                    scale: [1, 1.3, 1],
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-              </Button>
-            </Badge>
-          </motion.div>
-
           {/* User Profile */}
           <Dropdown
             menu={{ items: userMenuItems }}
