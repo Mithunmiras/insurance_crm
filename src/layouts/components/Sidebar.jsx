@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Avatar } from 'antd';
+import { Layout } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -401,82 +401,6 @@ const Sidebar = ({ collapsed, onCollapse }) => {
           })}
         </nav>
       </div>
-      
-      {/* User Profile Section */}
-      <motion.div 
-        className={`absolute bottom-0 left-0 right-0 border-t border-white/10 bg-gradient-to-t from-slate-900/80 to-transparent backdrop-blur-sm ${collapsed ? 'px-3 py-4' : 'px-4 py-5'}`}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.8 }}
-      >
-        <div className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'}`}>
-          <motion.div
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            className="relative"
-          >
-            <motion.div 
-              className="absolute -inset-1 rounded-full"
-              style={{
-                background: "conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6)"
-              }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            />
-            <Avatar 
-              size={collapsed ? 40 : 48}
-              className="relative bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold"
-              style={{ border: '2px solid rgba(255,255,255,0.2)' }}
-            >
-              {user?.name?.charAt(0) || 'A'}
-            </Avatar>
-          </motion.div>
-          
-          {!collapsed && (
-            <motion.div 
-              className="flex-1 overflow-hidden"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.p 
-                className="text-white font-semibold text-sm truncate"
-                style={{
-                  textShadow: "0 2px 10px rgba(255,255,255,0.1)"
-                }}
-              >
-                {user?.name || 'Admin Manager'}
-              </motion.p>
-              <motion.p 
-                className="text-gray-400 text-xs truncate"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                {user?.email || 'admin@insurancecrm.com'}
-              </motion.p>
-              <motion.div 
-                className="mt-1 px-2 py-0.5 rounded-full text-xs font-medium inline-block"
-                style={{
-                  background: "linear-gradient(90deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2))",
-                  border: "1px solid rgba(59,130,246,0.3)"
-                }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <span className="text-blue-300">
-                  {user?.role === 'superAdmin' ? 'Super Admin' : 
-                   user?.role === 'branchHead' ? 'Branch Head' :
-                   user?.role === 'staff' ? 'Agent' :
-                   user?.role === 'customer' ? 'Customer' :
-                   user?.role === 'doctor' ? 'Doctor' : 'User'}
-                </span>
-              </motion.div>
-            </motion.div>
-          )}
-        </div>
-      </motion.div>
 
       
       {/* Enhanced Floating Orbs */}
