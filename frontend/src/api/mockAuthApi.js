@@ -5,35 +5,87 @@ const mockUsers = [
     name: 'Admin Manager',
     email: 'admin@insurancecrm.com',
     password: 'InsureCRM@2025',
-    role: 'superAdmin'
+    role: 'superAdmin',
+    permissions: [
+      { label: 'Dashboard', enable: true },
+      { label: 'Life Insurance', enable: true },
+      { label: 'Clients', enable: true },
+      { label: 'Leads', enable: true },
+      { label: 'Quotes', enable: true },
+      { label: 'All Policies', enable: true },
+      { label: 'Claims', enable: true },
+      { label: 'Payments', enable: true },
+      { label: 'Agents', enable: true },
+      { label: 'Tasks', enable: true },
+      { label: 'Documents', enable: true },
+      { label: 'Reports', enable: true },
+      { label: 'User Management', enable: true },
+      { label: 'Branch Management', enable: true },
+      { label: 'Settings', enable: true }
+    ]
   },
   {
     id: '2',
     name: 'Sarah Mitchell',
     email: 'sarah.mitchell@insurancecrm.com',
     password: 'BranchHead@123',
-    role: 'branchHead'
+    role: 'branchHead',
+    permissions: [
+      { label: 'Dashboard', enable: true },
+      { label: 'Life Insurance', enable: true },
+      { label: 'Clients', enable: true },
+      { label: 'Leads', enable: true },
+      { label: 'Quotes', enable: true },
+      { label: 'All Policies', enable: true },
+      { label: 'Claims', enable: true },
+      { label: 'Payments', enable: true },
+      { label: 'Agents', enable: true },
+      { label: 'Tasks', enable: true },
+      { label: 'Documents', enable: true },
+      { label: 'Reports', enable: true }
+    ]
   },
   {
     id: '3',
     name: 'Robert Johnson',
     email: 'robert.johnson@insurancecrm.com',
     password: 'Agent@2025',
-    role: 'staff'
+    role: 'staff',
+    permissions: [
+      { label: 'Dashboard', enable: true },
+      { label: 'Life Insurance', enable: true },
+      { label: 'Clients', enable: true },
+      { label: 'Leads', enable: true },
+      { label: 'Quotes', enable: true },
+      { label: 'Tasks', enable: true },
+      { label: 'Documents', enable: true }
+    ]
   },
   {
     id: '4',
     name: 'Emily Davis',
     email: 'emily.davis@insurancecrm.com',
     password: 'Customer@123',
-    role: 'customer'
+    role: 'customer',
+    permissions: [
+      { label: 'Dashboard', enable: true },
+      { label: 'All Policies', enable: true },
+      { label: 'Documents', enable: true }
+    ]
   },
   {
     id: '5',
     name: 'Michael Chen',
     email: 'michael.chen@insurancecrm.com',
     password: 'Agent@456',
-    role: 'doctor'
+    role: 'doctor',
+    permissions: [
+      { label: 'Dashboard', enable: true },
+      { label: 'Life Insurance', enable: true },
+      { label: 'Clients', enable: true },
+      { label: 'Documents', enable: true },
+      { label: 'Reports', enable: true }
+    ]
   }
 ];
 
@@ -70,7 +122,8 @@ export const mockLoginUser = async (credentials) => {
       id: user.id,
       name: user.name,
       email: user.email,
-      role: user.role
+      role: user.role,
+      permissions: user.permissions
     }
   };
 };
