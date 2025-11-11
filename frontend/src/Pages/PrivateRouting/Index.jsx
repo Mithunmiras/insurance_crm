@@ -7,6 +7,7 @@ import DashboardLayout from "../../layouts/DashboardLayout";
 import { useAuthStore } from "../../store/useAuthStore";
 
 // Insurance CRM Pages
+const DashboardOverview = lazy(() => import("./Insurance/Dashboard/Index"));
 const LifeInsurance = lazy(() => import("./Insurance/LifeInsurance/Index"));
 const Clients = lazy(() => import("./Insurance/Clients/Index"));
 
@@ -30,14 +31,7 @@ const Index = () => {
         }
       >
         <Routes>
-          <Route path="/" element={
-            <DashboardLayout>
-              <div className="text-center p-8">
-                <h2 className="text-2xl font-bold mb-4">Insurance CRM Dashboard</h2>
-                <p>Welcome to Insurance CRM Pro. Use the sidebar to navigate.</p>
-              </div>
-            </DashboardLayout>
-          } />
+          <Route path="/" element={<DashboardOverview />} />
           
           {/* Insurance CRM Routes */}
           <Route path="/life-insurance" element={<LifeInsurance />} />

@@ -58,26 +58,27 @@ const Sidebar = ({ collapsed, onCollapse }) => {
   };
 
   const routeMap = {
-    'Dashboard': '/dashboard',
-    'Life Insurance': '/admin/life-insurance',
-    'Clients': '/admin/clients',
-    'Leads': '/admin/leads',
-    'Quotes': '/admin/quotes',
-    'Policies': '/admin/policies',
-    'Claims': '/admin/claims',
-    'Payments': '/admin/payments',
-    'Agents': '/admin/agents',
-    'Tasks': '/admin/tasks',
-    'Documents': '/admin/documents',
-    'Reports': '/admin/reports',
-    'Branch Management': '/admin/branch-management',
+    'Dashboard': user?.role === 'superAdmin' ? '/superadmin' : '/admin',
+    'Life Insurance': user?.role === 'superAdmin' ? '/superadmin/life-insurance' : '/admin/life-insurance',
+    'Clients': user?.role === 'superAdmin' ? '/superadmin/clients' : '/admin/clients',
+    'Leads': user?.role === 'superAdmin' ? '/superadmin/leads' : '/admin/leads',
+    'Quotes': user?.role === 'superAdmin' ? '/superadmin/quotes' : '/admin/quotes',
+    'Policies': user?.role === 'superAdmin' ? '/superadmin/policies' : '/admin/policies',
+    'Claims': user?.role === 'superAdmin' ? '/superadmin/claims' : '/admin/claims',
+    'Payments': user?.role === 'superAdmin' ? '/superadmin/payments' : '/admin/payments',
+    'Agents': user?.role === 'superAdmin' ? '/superadmin/agents' : '/admin/agents',
+    'Tasks': user?.role === 'superAdmin' ? '/superadmin/tasks' : '/admin/tasks',
+    'Documents': user?.role === 'superAdmin' ? '/superadmin/documents' : '/admin/documents',
+    'Reports': user?.role === 'superAdmin' ? '/superadmin/reports' : '/admin/reports',
+    'Branch Management': user?.role === 'superAdmin' ? '/superadmin/branch-management' : '/admin/branch-management',
     'User Management': '/user-management',
-    'Appointment': '/admin/appointments',
-    'Subscriptions': '/admin/subscriptions',
-    'Inventory': '/admin/inventory',
-    'Report & Analytics': '/admin/reports-analytics',
-    'Settings': '/admin/settings',
-    'Role': '/admin/roles'
+    'All Policies': user?.role === 'superAdmin' ? '/superadmin/policies' : '/admin/policies',
+    'Appointment': user?.role === 'superAdmin' ? '/superadmin/appointments' : '/admin/appointments',
+    'Subscriptions': user?.role === 'superAdmin' ? '/superadmin/subscriptions' : '/admin/subscriptions',
+    'Inventory': user?.role === 'superAdmin' ? '/superadmin/inventory' : '/admin/inventory',
+    'Report & Analytics': user?.role === 'superAdmin' ? '/superadmin/reports-analytics' : '/admin/reports-analytics',
+    'Settings': user?.role === 'superAdmin' ? '/superadmin/settings' : '/admin/settings',
+    'Role': user?.role === 'superAdmin' ? '/superadmin/roles' : '/admin/roles'
   };
 
   const getNavItems = () => {
