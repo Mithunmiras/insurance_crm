@@ -1,25 +1,39 @@
-// Mock users for testing
+// Mock users for testing - Insurance CRM Pro
 const mockUsers = [
   {
     id: '1',
-    name: 'Super Admin User',
-    email: 'admin@dental.com',
-    password: 'admin123',
-    role: 'super_admin'
+    name: 'Admin Manager',
+    email: 'admin@insurancecrm.com',
+    password: 'InsureCRM@2025',
+    role: 'superAdmin'
   },
   {
     id: '2',
-    name: 'Dr. John Smith',
-    email: 'doctor@dental.com',
-    password: 'doctor123',
-    role: 'doctor'
+    name: 'Sarah Mitchell',
+    email: 'sarah.mitchell@insurancecrm.com',
+    password: 'BranchHead@123',
+    role: 'branchHead'
   },
   {
     id: '3',
-    name: 'Jane Doe',
-    email: 'staff@dental.com',
-    password: 'staff123',
-    role: 'admin'
+    name: 'Robert Johnson',
+    email: 'robert.johnson@insurancecrm.com',
+    password: 'Agent@2025',
+    role: 'staff'
+  },
+  {
+    id: '4',
+    name: 'Emily Davis',
+    email: 'emily.davis@insurancecrm.com',
+    password: 'Customer@123',
+    role: 'customer'
+  },
+  {
+    id: '5',
+    name: 'Michael Chen',
+    email: 'michael.chen@insurancecrm.com',
+    password: 'Agent@456',
+    role: 'doctor'
   }
 ];
 
