@@ -26,16 +26,24 @@ export default function ScrollToTop() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed inset-0 bg-white flex items-center justify-center z-[9999]"
+          className="fixed inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center z-[9999]"
         >
           <motion.img
-            src="https://dummy-testing123.s3.ap-south-1.amazonaws.com/1758698277689-Chakra%20Interior.png"
-            alt="Loading..."
-            className="h-20 w-auto"
+            src="/logo.svg"
+            alt="Insurance CRM Pro"
+            className="w-40 h-auto"
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            animate={{ 
+              scale: [0.8, 1, 0.8], 
+              opacity: [0, 1, 1] 
+            }}
             exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ 
+              duration: 0.8, 
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatDelay: 0.2
+            }}
           />
         </motion.div>
       )}
