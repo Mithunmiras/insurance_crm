@@ -8,7 +8,7 @@ import {
   CalendarOutlined,
   DollarOutlined,
   TeamOutlined,
-  TrendingUpOutlined,
+  RiseOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined
 } from '@ant-design/icons';
@@ -124,7 +124,7 @@ const Dashboard = () => {
           { 
             title: 'This Month Leads', 
             value: 12, 
-            icon: <TrendingUpOutlined />,
+            icon: <RiseOutlined />,
             gradient: 'from-purple-500 to-purple-600',
             change: '+10%',
             changeType: 'up'

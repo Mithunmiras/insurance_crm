@@ -8,7 +8,7 @@ import {
   ExclamationCircleOutlined,
   TeamOutlined,
   DollarOutlined,
-  TrendingUpOutlined,
+  RiseOutlined,
   ArrowUpOutlined
 } from '@ant-design/icons';
 
@@ -135,7 +135,7 @@ const DashboardOverview = () => {
             {/* Chart Placeholder */}
             <div className="w-full h-80 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
               <div className="text-center">
-                <TrendingUpOutlined className="text-6xl text-blue-400 mb-4" />
+                <RiseOutlined className="text-6xl text-blue-400 mb-4" />
                 <Text className="text-gray-500 block text-lg">Sales Chart</Text>
                 <Text className="text-gray-400 text-sm">Chart visualization will be displayed here</Text>
               </div>
