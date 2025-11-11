@@ -257,24 +257,49 @@ const Sidebar = ({ collapsed, onCollapse }) => {
         <nav className="space-y-2">
           {getNavItems().map((item, index) => {
             const isActive = location.pathname === item.path;
+            
+            // Add section header before Life Insurance
+            const showHealthInsuranceHeader = item.label === 'Life Insurance';
+            
             return (
-              <motion.div
-                key={item.path}
-                initial={{ opacity: 0, x: -40, rotateY: -15 }}
-                animate={{ opacity: 1, x: 0, rotateY: 0 }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: index * 0.08 + 1.2,
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 25
-                }}
-                whileHover={{ 
-                  scale: 1.03, 
-                  x: 4,
-                  transition: { duration: 0.2 }
-                }}
-              >
+              <React.Fragment key={item.path}>
+                {showHealthInsuranceHeader && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: collapsed ? 0 : 1, y: collapsed ? 10 : 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.08 + 1.2 }}
+                    className={`${collapsed ? 'hidden' : 'block'} mt-6 mb-3`}
+                  >
+                    <div className="px-3">
+                      <p className="text-blue-300 text-xs font-bold uppercase tracking-widest">
+                        Health Insurance
+                      </p>
+                      <motion.div 
+                        className="mt-2 h-px bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-transparent"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.4, delay: index * 0.08 + 1.3 }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+                
+                <motion.div
+                  initial={{ opacity: 0, x: -40, rotateY: -15 }}
+                  animate={{ opacity: 1, x: 0, rotateY: 0 }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.08 + 1.2,
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25
+                  }}
+                  whileHover={{ 
+                    scale: 1.03, 
+                    x: 4,
+                    transition: { duration: 0.2 }
+                  }}
+                >
                 <NavLink
                   to={item.path}
                   className={`royal-nav-item ${isActive ? 'active' : ''} relative overflow-hidden group block`}
@@ -370,6 +395,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
                   />
                 </NavLink>
               </motion.div>
+              </React.Fragment>
             );
           })}
         </nav>
