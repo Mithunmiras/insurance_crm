@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Suspense } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Route, Routes, useLocation } from "react-router-dom";
-import LandingPage from "./LandingPage/Index";
 const PageNotFound = React.lazy(() => import("../PageNotFound/Index"));
 import PageLoader from "../../Component/PageLoader";
 

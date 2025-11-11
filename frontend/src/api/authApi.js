@@ -1,6 +1,18 @@
+// Import mock authentication for demo
+import { mockLoginUser } from './mockAuthApi';
+
+// Toggle between mock and real API
+const USE_MOCK_API = true; // Set to false when connecting to real backend
 const API_BASE_URL = 'http://localhost:8000/user';
 
 export const loginUser = async (credentials) => {
+  // Use mock API for demo/development
+  if (USE_MOCK_API) {
+    console.log('Using mock authentication');
+    return await mockLoginUser(credentials);
+  }
+  
+  // Real API implementation (for production)
   try {
     console.log('Sending login request:', credentials);
     const response = await fetch(`${API_BASE_URL}/accountLogin`, {
