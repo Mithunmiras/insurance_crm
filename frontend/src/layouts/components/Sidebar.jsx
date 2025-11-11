@@ -14,7 +14,18 @@ import {
   InboxOutlined,
   BarChartOutlined,
   SettingOutlined,
-  UserSwitchOutlined
+  UserSwitchOutlined,
+  FileProtectOutlined,
+  SafetyOutlined,
+  ContainerOutlined,
+  SolutionOutlined,
+  HeartOutlined,
+  UserAddOutlined,
+  FileTextOutlined,
+  ExclamationCircleOutlined,
+  CreditCardOutlined,
+  CheckSquareOutlined,
+  FolderOpenOutlined
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -25,12 +36,21 @@ const Sidebar = ({ collapsed, onCollapse }) => {
 
   const iconMap = {
     'Dashboard': <DashboardOutlined />,
+    'Life Insurance': <HeartOutlined />,
+    'Clients': <TeamOutlined />,
+    'Leads': <UserAddOutlined />,
+    'Quotes': <FileTextOutlined />,
+    'Policies': <FileProtectOutlined />,
+    'Claims': <SafetyOutlined />,
+    'Payments': <CreditCardOutlined />,
+    'Agents': <SolutionOutlined />,
+    'Tasks': <CheckSquareOutlined />,
+    'Documents': <FolderOpenOutlined />,
+    'Reports': <BarChartOutlined />,
     'Branch Management': <BankOutlined />,
     'User Management': <UserOutlined />,
-    'Patient Records': <TeamOutlined />,
     'Appointment': <CalendarOutlined />,
     'Subscriptions': <CustomerServiceOutlined />,
-    'Payments': <DollarOutlined />,
     'Inventory': <InboxOutlined />,
     'Report & Analytics': <BarChartOutlined />,
     'Settings': <SettingOutlined />,
@@ -39,16 +59,25 @@ const Sidebar = ({ collapsed, onCollapse }) => {
 
   const routeMap = {
     'Dashboard': '/dashboard',
-    'Branch Management': '/branch-management',
+    'Life Insurance': '/admin/life-insurance',
+    'Clients': '/admin/clients',
+    'Leads': '/admin/leads',
+    'Quotes': '/admin/quotes',
+    'Policies': '/admin/policies',
+    'Claims': '/admin/claims',
+    'Payments': '/admin/payments',
+    'Agents': '/admin/agents',
+    'Tasks': '/admin/tasks',
+    'Documents': '/admin/documents',
+    'Reports': '/admin/reports',
+    'Branch Management': '/admin/branch-management',
     'User Management': '/user-management',
-    'Patient Records': '/patient-records',
-    'Appointment': '/appointments',
-    'Subscriptions': '/subscriptions',
-    'Payments': '/payments',
-    'Inventory': '/inventory',
-    'Report & Analytics': '/reports',
-    'Settings': '/settings',
-    'Role': '/roles'
+    'Appointment': '/admin/appointments',
+    'Subscriptions': '/admin/subscriptions',
+    'Inventory': '/admin/inventory',
+    'Report & Analytics': '/admin/reports-analytics',
+    'Settings': '/admin/settings',
+    'Role': '/admin/roles'
   };
 
   const getNavItems = () => {
@@ -160,7 +189,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                D
+                I
               </motion.span>
             </motion.div>
           </motion.div>
@@ -187,7 +216,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
                 }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                Dental CRM
+                Insurance CRM
               </motion.h3>
               
               <motion.div className="mt-2 relative">
@@ -197,7 +226,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
                   animate={{ opacity: [0, 1, 0.8, 1] }}
                   transition={{ duration: 2, delay: 0.8 }}
                 >
-                  Royal Premium
+                  Life Insurance Pro
                 </motion.p>
               </motion.div>
             </motion.div>

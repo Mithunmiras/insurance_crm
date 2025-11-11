@@ -25,7 +25,8 @@ const Index = () => {
       >
         <Routes>
           <Route path="*" element={<PageNotFound />} /> {/* Catch-all 404 */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LoginPage />} />
+          {/* <Route path="/landing" element={<LandingPage />} /> */} {/* Landing page removed */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
         </Routes>

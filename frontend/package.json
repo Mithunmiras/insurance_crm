@@ -1,8 +1,9 @@
 {
-  "name": "DentalCRM-web-app",
+  "name": "insurance-crm-pro",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Insurance CRM Pro - Life Insurance Specialist System with comprehensive policy management",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

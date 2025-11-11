@@ -34,24 +34,24 @@ const Dashboard = () => {
       case 'superAdmin':
         return [
           { 
-            title: 'Total Branches', 
-            value: 12, 
+            title: 'Total Policies', 
+            value: 200, 
             icon: <TeamOutlined />,
             gradient: 'from-blue-500 to-blue-600',
             change: '+12%',
             changeType: 'up'
           },
           { 
-            title: 'Total Users', 
-            value: 248, 
+            title: 'Life Insurance', 
+            value: 150, 
             icon: <UserOutlined />,
             gradient: 'from-green-500 to-green-600',
             change: '+8%',
             changeType: 'up'
           },
           { 
-            title: 'Monthly Revenue', 
-            value: 125000, 
+            title: 'Total Coverage', 
+            value: 45000000, 
             prefix: '$', 
             icon: <DollarOutlined />,
             gradient: 'from-purple-500 to-purple-600',
@@ -59,8 +59,8 @@ const Dashboard = () => {
             changeType: 'up'
           },
           { 
-            title: 'Active Patients', 
-            value: 1840, 
+            title: 'Active Clients', 
+            value: 200, 
             icon: <CalendarOutlined />,
             gradient: 'from-pink-500 to-pink-600',
             change: '+5%',
@@ -70,24 +70,24 @@ const Dashboard = () => {
       case 'branchHead':
         return [
           { 
-            title: 'Total Staff', 
-            value: 25, 
+            title: 'Total Agents', 
+            value: 100, 
             icon: <TeamOutlined />,
             gradient: 'from-blue-500 to-blue-600',
             change: '+3%',
             changeType: 'up'
           },
           { 
-            title: 'Today Appointments', 
-            value: 18, 
+            title: 'Pending Claims', 
+            value: 25, 
             icon: <CalendarOutlined />,
             gradient: 'from-green-500 to-green-600',
             change: '+12%',
             changeType: 'up'
           },
           { 
-            title: 'Monthly Revenue', 
-            value: 45000, 
+            title: 'Monthly Premiums', 
+            value: 250000, 
             prefix: '$', 
             icon: <DollarOutlined />,
             gradient: 'from-purple-500 to-purple-600',
@@ -95,43 +95,44 @@ const Dashboard = () => {
             changeType: 'up'
           },
           { 
-            title: 'Active Patients', 
-            value: 320, 
+            title: 'New Leads', 
+            value: 85, 
             icon: <UserOutlined />,
             gradient: 'from-pink-500 to-pink-600',
-            change: '-2%',
-            changeType: 'down'
+            change: '+18%',
+            changeType: 'up'
           }
         ];
       default:
         return [
           { 
-            title: 'My Patients', 
-            value: 85, 
+            title: 'My Clients', 
+            value: 45, 
             icon: <UserOutlined />,
             gradient: 'from-blue-500 to-blue-600',
             change: '+5%',
             changeType: 'up'
           },
           { 
-            title: 'Today Appointments', 
-            value: 8, 
+            title: 'Active Policies', 
+            value: 62, 
             icon: <CalendarOutlined />,
             gradient: 'from-green-500 to-green-600',
             change: '+20%',
             changeType: 'up'
           },
           { 
-            title: 'This Week', 
-            value: 24, 
+            title: 'This Month Leads', 
+            value: 12, 
             icon: <TrendingUpOutlined />,
             gradient: 'from-purple-500 to-purple-600',
             change: '+10%',
             changeType: 'up'
           },
           { 
-            title: 'This Month', 
-            value: 95, 
+            title: 'Commission', 
+            value: 12500, 
+            prefix: '$',
             icon: <DollarOutlined />,
             gradient: 'from-pink-500 to-pink-600',
             change: '+15%',
@@ -359,7 +360,7 @@ const Dashboard = () => {
                 <div className="space-y-8">
                   <div>
                     <div className="flex justify-between items-center mb-3">
-                      <Text className="font-semibold" style={{ color: '#4A5568' }}>Monthly Target</Text>
+                      <Text className="font-semibold" style={{ color: '#4A5568' }}>Monthly Sales Target</Text>
                       <Text style={{ color: '#718096' }}>75%</Text>
                     </div>
                     <Progress 
@@ -371,7 +372,7 @@ const Dashboard = () => {
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-3">
-                      <Text className="font-semibold" style={{ color: '#4A5568' }}>Patient Satisfaction</Text>
+                      <Text className="font-semibold" style={{ color: '#4A5568' }}>Client Satisfaction</Text>
                       <Text style={{ color: '#718096' }}>92%</Text>
                     </div>
                     <Progress 
@@ -383,11 +384,11 @@ const Dashboard = () => {
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-3">
-                      <Text className="font-semibold" style={{ color: '#4A5568' }}>Revenue Growth</Text>
-                      <Text style={{ color: '#718096' }}>68%</Text>
+                      <Text className="font-semibold" style={{ color: '#4A5568' }}>Policy Retention</Text>
+                      <Text style={{ color: '#718096' }}>88%</Text>
                     </div>
                     <Progress 
-                      percent={68} 
+                      percent={88} 
                       strokeColor="#ED8936"
                       strokeWidth={8}
                     />
@@ -405,31 +406,31 @@ const Dashboard = () => {
                 <Title level={3} style={{ color: '#2D3748', marginBottom: '2rem' }}>Quick Actions</Title>
                 <div className="space-y-4">
                   <Text style={{ color: '#4A5568', marginBottom: '2rem', display: 'block' }}>
-                    Welcome to your {getRoleDisplayName(user?.userType)} dashboard. 
-                    Use the sidebar to navigate through different sections.
+                    Welcome to Insurance CRM Pro. 
+                    Use the sidebar to manage policies, clients, and claims.
                   </Text>
                   <div className="space-y-4">
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button block size="large" className="royal-btn-secondary text-left h-auto py-4">
                         <div>
-                          <div className="font-semibold">Schedule Appointment</div>
-                          <div className="text-xs" style={{ color: '#718096' }}>Book new patient visit</div>
+                          <div className="font-semibold">New Policy</div>
+                          <div className="text-xs" style={{ color: '#718096' }}>Create new insurance policy</div>
                         </div>
                       </Button>
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button block size="large" className="royal-btn-secondary text-left h-auto py-4">
                         <div>
-                          <div className="font-semibold">View Reports</div>
-                          <div className="text-xs" style={{ color: '#718096' }}>Analytics & insights</div>
+                          <div className="font-semibold">Process Claim</div>
+                          <div className="text-xs" style={{ color: '#718096' }}>Handle insurance claims</div>
                         </div>
                       </Button>
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button block size="large" className="royal-btn-primary text-left h-auto py-4">
                         <div>
-                          <div className="font-semibold">Manage Users</div>
-                          <div className="text-xs" style={{ color: 'rgba(255,255,255,0.8)' }}>User administration</div>
+                          <div className="font-semibold">View Reports</div>
+                          <div className="text-xs" style={{ color: 'rgba(255,255,255,0.8)' }}>Analytics & insights</div>
                         </div>
                       </Button>
                     </motion.div>
