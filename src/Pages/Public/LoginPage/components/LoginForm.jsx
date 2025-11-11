@@ -28,22 +28,22 @@ export const LoginForm = () => {
       switch (userRole) {
         case 'superAdmin':
           console.log('Navigating to /superadmin');
-          navigate('/superadmin');
+          navigate('/superadmin/');
           break;
         case 'branchHead':
         case 'doctor':
         case 'staff':
           console.log('Navigating to /admin');
-          navigate('/admin');
+          navigate('/admin/');
           break;
         case 'customer':
           console.log('Navigating to /patient-portal');
-          navigate('/patient-portal');
+          navigate('/patient-portal/');
           break;
         default:
           console.log('Default case - role not recognized:', userRole);
           console.log('Navigating to /admin as fallback');
-          navigate('/admin');
+          navigate('/admin/');
       }
     },
     onError: (error) => {

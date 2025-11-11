@@ -10,7 +10,7 @@ const PageNotFound = React.lazy(() => import("./Pages/PageNotFound/Index"));
 const Public = React.lazy(() => import("./Pages/Public/Index"));
 const PrivateRouting = React.lazy(() => import("./Pages/PrivateRouting/Index"));
 const Dashboard = React.lazy(() => import("./Pages/Dashboard/index"));
-const UsersPage = React.lazy(() => import("./pages/UserManagement/index"));
+const UsersPage = React.lazy(() => import("./Pages/UserManagement/index"));
 
 function App() {
   return (
